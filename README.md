@@ -6,5 +6,6 @@
 
 ```bash
 python -m venv localvibe-venv
-source localvibe-venv/bin/activate  # Windows: localvibe-venv\Scripts\activate
+Windows: localvibe-venv\Scripts\activate 
+# Mac/Linux: source localvibe-venv/bin/activate  
 pip install -r requirements.txt
