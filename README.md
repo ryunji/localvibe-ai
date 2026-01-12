@@ -10,3 +10,8 @@ Windows: localvibe-venv\Scripts\activate
 # Mac/Linux: source localvibe-venv/bin/activate  
 pip install -r requirements.txt
 # personal-ryunji-ai-prototype
+
+
+
+# React가 실앻되는 순서
+

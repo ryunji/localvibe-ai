@@ -48,18 +48,26 @@ LocalVibe AI - FastAPI 서버
 from fastapi import FastAPI, BackgroundTasks
 from contextlib import asynccontextmanager
 from apscheduler.schedulers.background import BackgroundScheduler
+from src.collectors.seoul_api import SeoulAPICollector
 from datetime import datetime
 import runpy
+from fastapi.middleware.cors import CORSMiddleware
 
 # 전역 스케줄러
 scheduler = None
 
+
+# 수집하는 메서드 호출한다.
 def run_collector():
     """src/collectors/seoul_api.py 실행"""
     print(f"\n🚀 수집 시작 - {datetime.now()}")
     
-    runpy.run_path("src/collectors/seoul_api.py", run_name="__main__")
-    
+    # 기존에 main으로 실행
+    #runpy.run_path("src/collectors/seoul_api.py", run_name="__main__")
+    # 26.01.12.월요일 추가 : 객체생성
+    collector = SeoulAPICollector()  
+    raw = collector.fetch_exhibitions(start=1, end=150)
+    return [collector.parse_to_model_data(r) for r in raw]
     print(f"✅ 완료 - {datetime.now()}\n")
 
 
@@ -89,6 +97,18 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5174",
+        "http://localhost:5173",
+        "http://127.0.0.1:5174",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():
@@ -103,8 +123,13 @@ def root():
 @app.post("/collect")
 def collect_now(background_tasks: BackgroundTasks):
     """수동 수집 트리거"""
-    background_tasks.add_task(run_collector)
-    return {"message": "수집 시작!"}
+    #background_tasks.add_task(run_collector)
+    #return {"message": "수집 시작!"}
+    result = run_collector()
+    return {
+        "count": len(result),
+        "data": result
+    }
 
 
 #############################################################################

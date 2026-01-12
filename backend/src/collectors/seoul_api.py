@@ -67,7 +67,9 @@ class SeoulAPICollector:
             'longitude': float(raw_data.get('LOT', 0)) if raw_data.get('LOT') else None,
         }
         
-# 파일이 직접 실행될 때만 작동하는 코드.
+# 터미널에서 직접 실행하여 즉시 테스트를 하기위해 남겨두며
+# 파일이 직접 실행될 때만 작동하는 코드이다.
+# FastAPI에서 import 할 때는 실행되지 말아야 한다.
 if __name__ == "__main__":
     
     # 1. 수집기 객체 생성
