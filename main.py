@@ -121,6 +121,8 @@ def main():
 # 코드의 의미 → 이 파일이 직접 실행될 때만 아래 코드 실행해라
 # 직접 실행이라 함은 ex) python main.py
 
+# 자동으로 name에 변수가 main으로 들어간다..?
+# import 할때는 main이 아니게 되고, 그 경우에는 : 다음의 코드를 실행하지 않음.
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000) # 맨 마지막 인자는 reload=False인 상태.
