@@ -9,3 +9,4 @@ python -m venv localvibe-venv
 Windows: localvibe-venv\Scripts\activate 
 # Mac/Linux: source localvibe-venv/bin/activate  
 pip install -r requirements.txt
+# personal-ryunji-ai-prototype
