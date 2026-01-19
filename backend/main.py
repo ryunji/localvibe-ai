@@ -52,6 +52,7 @@ from src.collectors.seoul_api import SeoulAPICollector
 from datetime import datetime
 import runpy
 from fastapi.middleware.cors import CORSMiddleware
+from src.routes.chat import router as chat_router
 
 # 전역 스케줄러
 scheduler = None
@@ -96,6 +97,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(chat_router)
 
 app.add_middleware(
     CORSMiddleware,
