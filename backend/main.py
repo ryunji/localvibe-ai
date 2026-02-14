@@ -48,11 +48,12 @@ LocalVibe AI - FastAPI 서버
 from fastapi import FastAPI, BackgroundTasks
 from contextlib import asynccontextmanager
 from apscheduler.schedulers.background import BackgroundScheduler
-from src.collectors.seoul_api import SeoulAPICollector
+from src.collectors.seoul_open_data_cultural_event import collect_seoul_pois
 from datetime import datetime
 import runpy
 from fastapi.middleware.cors import CORSMiddleware
 from src.routes.chat import router as chat_router
+from src.db.database import init_db
 
 # 전역 스케줄러
 scheduler = None
@@ -66,9 +67,7 @@ def run_collector():
     # 기존에 main으로 실행
     #runpy.run_path("src/collectors/seoul_api.py", run_name="__main__")
     # 26.01.12.월요일 추가 : 객체생성
-    collector = SeoulAPICollector()  
-    raw = collector.fetch_exhibitions(start=1, end=150)
-    return [collector.parse_to_model_data(r) for r in raw]
+    collect_seoul_pois()
     print(f"✅ 완료 - {datetime.now()}\n")
 
 
@@ -79,6 +78,9 @@ async def lifespan(app: FastAPI):
     
     # 서버 시작시
     print("🚀 서버 시작!")
+    
+    
+    init_db()
     
     # 서버 시작 시 최초 1회 수집 실행 (의도된 동작)
     run_collector()

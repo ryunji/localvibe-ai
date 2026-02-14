@@ -8,7 +8,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-class SeoulAPICollector:
+class SeoulOpenDataCulturalEventCollector:
+    """
+    서울 열린데이터 광장에서 제공하는
+    문화행사정보(culturalEventInfo) Open API 수집기
+    """
     
     def __init__(self):
         self.api_key  = os.getenv("SEOUL_API_KEY")
@@ -73,7 +77,7 @@ class SeoulAPICollector:
 if __name__ == "__main__":
     
     # 1. 수집기 객체 생성
-    collector = SeoulAPICollector()
+    collector = SeoulOpenDataCulturalEventCollector()
     
     # 2. 데이터 가져오기 실행
     print("🚀 데이터 수집을 시작합니다...")
