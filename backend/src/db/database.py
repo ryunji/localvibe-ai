@@ -1,13 +1,18 @@
 # src/db/database.py
+import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
+# 🔹 .env 로드
+load_dotenv()
+
 # 🔹 MySQL 접속 정보
-DB_USER = "root"
-DB_PASSWORD = "gnosis260209"
-DB_HOST = "localhost"
-DB_PORT = 3306
-DB_NAME = "localvibe"
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
+DB_NAME = os.getenv("DB_NAME")
 
 # 🔹 SQLAlchemy MySQL 접속 URL
 SQLALCHEMY_DATABASE_URL = (
