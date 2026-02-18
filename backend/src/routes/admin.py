@@ -1,47 +1,42 @@
-# ============================================================
-# routes/admin.py
-# ============================================================
-
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-from src.db.database import get_db
-from src.models.exhibition import Exhibition
+from fastapi import APIRouter
+from src.db.database import SessionLocal
+from src.db.models import Poi
+from src.services.collector_service import run_collector
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
-@router.get("/status")
-def get_status():
-    return {
-        "scheduler_running": False,
-        "last_run": None,
-        "last_status": "idle"
-    }
-
 @router.get("/exhibitions")
-def get_exhibitions(db: Session = Depends(get_db)):
+def get_exhibitions():
+    db = SessionLocal()
+    try:
+        pois = db.query(Poi).all()
 
-    # 🔹 poi 테이블 기준 조회
-    exhibitions = (
-        db.query(Exhibition)
-        .order_by(Exhibition.id.desc())   # created_at 없음 → id 기준
-        .limit(100)
-        .all()
-    )
+        return [
+            {
+                "title": p.name,              # 프론트는 title 기대
+                "place_name": p.place_name,
+                "start_date": None,           # 아직 없으니까 None
+                "end_date": None,
+                "created_at": None,
+            }
+            for p in pois
+        ]
+    finally:
+        db.close()
 
-    return [
-        {
-            "id": e.id,
-            "title": e.name,           # name → title로 매핑
-            "poi_type": e.poi_type,
-            "place_name": e.place_name,
-            "address": e.address,
-            "latitude": float(e.latitude),
-            "longitude": float(e.longitude),
-            "use_fee": e.use_fee,
-            "target": e.target,
-            "contact": e.contact,
-            "homepage": e.homepage,
-            "source": e.source,
-        }
-        for e in exhibitions
-    ]
+@router.get("/status")
+def get_collect_status():
+    return {
+        "last_run_time": None,
+        "status": None,
+        "saved_count": 0,
+    }
+    
+@router.post("/collect/manual")
+def manual_collect():
+    result = run_collector()
+    return {
+        "success": True,
+        "data": result
+    }    
+    
