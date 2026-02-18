@@ -42,3 +42,10 @@ def init_db():
     print("📦 DB 초기화 시작 (MySQL)")
     Base.metadata.create_all(bind=engine)
     print("✅ DB 초기화 완료")
+    
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()    
