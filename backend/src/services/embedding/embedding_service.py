@@ -1,0 +1,10 @@
+from sentence_transformers import SentenceTransformer
+
+# 384차원 모델
+model = SentenceTransformer("all-MiniLM-L6-v2")
+
+def embed_text(text: str):
+    return model.encode(text).tolist()
+
+def embed_texts(texts: list[str]):
+    return model.encode(texts).tolist()

@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
     text = ocr.extract_text_from_pdf(pdf_path)
 
-    output_path = "data/processed/gwanghuido_text.txt"
+    output_path = "data/processed/gwanghuido.txt"
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
