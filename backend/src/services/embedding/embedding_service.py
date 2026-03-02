@@ -1,3 +1,4 @@
+# 삭제하면 안됨.
 from sentence_transformers import SentenceTransformer
 
 # 384차원 모델

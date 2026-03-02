@@ -1,3 +1,4 @@
+# 청킹된 데이터를 DB에 저장한다.
 import json
 from src.services.vector.vector_service import ingest_chunks
 

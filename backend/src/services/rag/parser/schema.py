@@ -3,7 +3,6 @@
 from dataclasses import dataclass, asdict
 from typing import List, Optional
 
-
 @dataclass
 class POI:
     category: str

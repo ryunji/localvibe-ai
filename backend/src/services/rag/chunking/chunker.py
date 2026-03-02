@@ -1,4 +1,4 @@
-# backend/src/services/rag/chunking/chunker.py
+# backend/src/services/rag/chunking/chunker.py : 삭제하면 안되는 파일.
 
 import re
 from typing import List, Optional

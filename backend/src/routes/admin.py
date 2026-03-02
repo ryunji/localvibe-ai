@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from src.db.database import SessionLocal
-from src.db.models import Poi
-from src.services.collector_service import run_collector
+from src.db.models.rdb.poi import Poi
+from src.services.collector.collector_service import run_collector
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 

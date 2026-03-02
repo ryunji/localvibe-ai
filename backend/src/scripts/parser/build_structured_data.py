@@ -3,7 +3,7 @@ import json
 
 if __name__ == "__main__":
 
-    with open("data/processed/j.txt", encoding="utf-8") as f:
+    with open("data/processed/jangchungdong.txt", encoding="utf-8") as f:
         text = f.read()
 
     parser = JungguPDFParser()

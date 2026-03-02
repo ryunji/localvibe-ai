@@ -1,4 +1,4 @@
-# backend/src/services/rag/chunking/schema.py
+# backend/src/services/rag/chunking/schema.py : 삭제하면 안됨.
 
 from dataclasses import dataclass, asdict
 from typing import Dict, Optional

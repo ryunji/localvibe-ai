@@ -1,3 +1,4 @@
+# 삭제하면 안됨.
 from sqlalchemy import create_engine, Column, Integer, Text
 from sqlalchemy.orm import declarative_base, sessionmaker
 from pgvector.sqlalchemy import Vector

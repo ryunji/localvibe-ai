@@ -17,3 +17,7 @@ localvibe-venv/
 # OS
 .DS_Store
 Thumbs.db
+
+# PostgreSQL data directory
+pgdata/
+
