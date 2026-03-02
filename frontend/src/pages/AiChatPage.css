@@ -10,139 +10,84 @@
 }
 
 /* ── 타이틀 ── */
-.page-title-wrap {
-  margin-bottom: 32px;
-}
-
-.page-title {
-  font-size: 32px;
-  font-weight: 800;
-  color: #111;
-  margin: 0;
-  letter-spacing: -0.5px;
-}
-
-.page-subtitle {
-  color: #888;
-  margin-top: 8px;
-  font-size: 15px;
-}
+.page-title-wrap { margin-bottom: 32px; }
+.page-title { font-size: 32px; font-weight: 800; color: #111; margin: 0; letter-spacing: -0.5px; }
+.page-subtitle { color: #888; margin-top: 8px; font-size: 15px; }
 
 /* ── 모델 선택 토글 ── */
-.model-toggle-row {
-  margin-bottom: 14px;
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.model-toggle-btn {
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.model-toggle-btn.active-local {
-  border: none;
-  background: #3b3bff;
-  color: #fff;
-  font-weight: 700;
-}
-
-.model-toggle-btn.active-gpt {
-  border: none;
-  background: #111;
-  color: #fff;
-  font-weight: 700;
-}
-
-.model-toggle-btn.inactive {
-  border: 1px solid #d4d0c8;
-  background: #fff;
-  color: #888;
-  font-weight: 400;
-}
-
-.model-toggle-label {
-  font-size: 12px;
-  color: #aaa;
-  margin-left: 4px;
-}
+.model-toggle-row { margin-bottom: 14px; display: flex; gap: 6px; align-items: center; }
+.model-toggle-btn { padding: 6px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+.model-toggle-btn.active-local { border: none; background: #3b3bff; color: #fff; font-weight: 700; }
+.model-toggle-btn.active-gpt   { border: none; background: #111;     color: #fff; font-weight: 700; }
+.model-toggle-btn.inactive     { border: 1px solid #d4d0c8; background: #fff; color: #888; }
+.model-toggle-label { font-size: 12px; color: #aaa; margin-left: 4px; }
 
 /* ── 검색 인풋 ── */
-.search-row {
-  display: flex;
-  gap: 8px;
-  align-items: flex-end;
+/* ── 검색 인풋 ── */
+.search-row { display: flex; gap: 8px; align-items: flex-end; }
+
+.search-input-wrap {
+  position: relative;
+  flex: 1;
 }
 
 .search-input {
-  flex: 1;
-  padding: 13px 16px;
+  width: 100%;
+  padding: 13px 50px 13px 16px;
   border-radius: 10px;
   border: 1.5px solid #e0ddd6;
   background: #fff;
   font-size: 15px;
   outline: none;
   transition: border-color 0.15s;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
   resize: none;
-  min-height: 50px;
-  max-height: 160px;
+  min-height: 120px;
+  max-height: 200px;
   overflow-y: auto;
   line-height: 1.5;
   font-family: inherit;
 }
-
-.search-input:focus {
-  border-color: #3b3bff;
-}
+.search-input:focus { border-color: #3b3bff; }
 
 .search-btn {
-  padding: 13px 20px;
-  border-radius: 10px;
+  position: absolute;
+  bottom: 15px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
   border: none;
   color: #fff;
-  font-weight: 700;
-  font-size: 14px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   transition: background 0.15s;
-  white-space: nowrap;
-  flex-shrink: 0;
 }
 
-.search-btn.idle {
-  background: #111;
-  cursor: pointer;
+.search-btn svg {
+  width: 18px;
+  height: 18px;
 }
-
-.search-btn.idle:hover {
-  background: #333;
-}
-
-.search-btn.loading {
-  background: #ccc;
-  cursor: not-allowed;
-}
+.search-btn.idle { background: #111; cursor: pointer; }
+.search-btn.idle:hover { background: #333; }
+.search-btn.loading { background: #ccc; cursor: not-allowed; }
 
 /* ── 스피너 ── */
 .spinner {
-  width: 15px;
-  height: 15px;
-  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  width: 15px; height: 15px;
+  border: 2.5px solid rgba(255,255,255,0.3);
   border-top: 2.5px solid #fff;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
-
 @keyframes spin {
   0%   { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* ── 응답 시간 ── */
+.elapsed-time { margin-top: 10px; font-size: 12px; color: #aaa; }
 
 /* ── 결과 박스 ── */
 .result-box {
@@ -150,90 +95,42 @@
   background: #fff;
   border: 1px solid #e8e6e0;
   border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-}
-
-/* 사용자 질문 */
-.question-bubble {
-  padding: 16px 24px;
-  background: #f9f8f5;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.question-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: #aaa;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-.question-text {
-  margin: 0;
-  font-size: 15px;
-  color: #111;
-  line-height: 1.6;
-  white-space: pre-wrap;
-}
-
-.result-divider {
-  height: 1px;
-  background: #f0ede6;
-}
-
-/* AI 답변 */
-.answer-section {
   padding: 20px 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
 }
 
-.answer-header {
+.result-header {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0ede6;
 }
 
-.answer-loading {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #aaa;
-  font-size: 14px;
-}
-
-.spinner-dark {
-  width: 15px;
-  height: 15px;
-  border: 2.5px solid #e0ddd6;
-  border-top: 2.5px solid #555;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  flex-shrink: 0;
-}
-
+/* 처음 디자인 그대로 - 정사각형 초록 뱃지 */
 .result-model-badge {
   font-size: 11px;
   font-weight: 700;
   padding: 3px 8px;
   border-radius: 5px;
-}
-
-.result-model-badge.gpt {
   background: #e8faf0;
   color: #16a34a;
 }
 
-.result-model-badge.local {
-  background: #eeeeff;
-  color: #3b3bff;
-}
+.result-query-label { font-size: 12px; color: #aaa; }
 
-.elapsed-time {
-  font-size: 12px;
-  color: #aaa;
+.answer-loading {
+  display: flex; align-items: center; gap: 10px;
+  color: #aaa; font-size: 14px;
+}
+.spinner-dark {
+  width: 15px; height: 15px;
+  border: 2.5px solid #e0ddd6;
+  border-top: 2.5px solid #555;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
 }
 
 .result-text {
@@ -246,25 +143,10 @@
 }
 
 /* ── 힌트 버튼들 ── */
-.hint-row {
-  margin-top: 32px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
+.hint-row { margin-top: 32px; display: flex; gap: 10px; flex-wrap: wrap; }
 .hint-btn {
-  padding: 8px 14px;
-  border-radius: 20px;
-  border: 1px solid #e0ddd6;
-  background: #fff;
-  font-size: 13px;
-  color: #666;
-  cursor: pointer;
-  transition: all 0.15s;
+  padding: 8px 14px; border-radius: 20px;
+  border: 1px solid #e0ddd6; background: #fff;
+  font-size: 13px; color: #666; cursor: pointer; transition: all 0.15s;
 }
-
-.hint-btn:hover {
-  background: #f5f4f0;
-  color: #111;
-}
+.hint-btn:hover { background: #f5f4f0; color: #111; }

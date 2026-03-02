@@ -7,9 +7,8 @@ export default function AiChatPage() {
   const [result, setResult] = useState("");
   const [elapsedSec, setElapsedSec] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [model, setModel] = useState("local"); // "local" | "gpt"
+  const [model, setModel] = useState("local");
 
-  // Layout에서 넘겨준 히스토리 추가 함수
   const { addHistory } = useOutletContext();
 
   const send = async () => {
@@ -18,7 +17,6 @@ export default function AiChatPage() {
     setResult("");
     setElapsedSec(null);
 
-    // 사이드바 히스토리에 추가
     addHistory({ id: Date.now(), q: q.trim(), model });
 
     try {
@@ -45,15 +43,6 @@ export default function AiChatPage() {
     }
   };
 
-  const onKeyDown = (e) => {
-    if (e.key === "Enter") send();
-  };
-
-  const getModelToggleClass = (m) => {
-    if (model !== m) return "model-toggle-btn inactive";
-    return m === "gpt" ? "model-toggle-btn active-gpt" : "model-toggle-btn active-local";
-  };
-
   return (
     <div className="aichat-content">
       <div className="aichat-inner">
@@ -71,7 +60,7 @@ export default function AiChatPage() {
           {["local", "gpt"].map((m) => (
             <button
               key={m}
-              className={getModelToggleClass(m)}
+              className={`model-toggle-btn ${model === m ? (m === "gpt" ? "active-gpt" : "active-local") : "inactive"}`}
               onClick={() => setModel(m)}
             >
               {m === "local" ? "🧠 내부 모델" : "✨ GPT"}
@@ -82,77 +71,62 @@ export default function AiChatPage() {
           </span>
         </div>
 
-        {/* 검색 인풋 - textarea로 자동 개행 */}
+        {/* 검색 인풋 */}
         <div className="search-row">
-          <textarea
-            className="search-input"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                send();
-              }
-            }}
-            placeholder="전시나 일정 질문해봐 (Shift+Enter 줄바꿈)"
-            disabled={loading}
-            rows={1}
-          />
-          <button
-            className={`search-btn ${loading ? "loading" : "idle"}`}
-            onClick={send}
-            disabled={loading}
-          >
-            {loading ? (
-              <>
+          <div className="search-input-wrap">
+            <textarea
+              className="search-input"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  send();
+                }
+              }}
+              placeholder="전시나 일정 질문해봐 (Shift+Enter 줄바꿈)"
+              disabled={loading}
+            />
+            <button
+              className={`search-btn ${loading ? "loading" : "idle"}`}
+              onClick={send}
+              disabled={loading}
+            >
+              {loading ? (
                 <div className="spinner" />
-                검색중
-              </>
-            ) : (
-              <>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="22" y1="2" x2="11" y2="13" />
                   <polygon points="22 2 15 22 11 13 2 9 22 2" />
                 </svg>
-                검색하기
-              </>
-            )}
-          </button>
+              )}
+            </button>
+          </div>
         </div>
 
-        {/* 질문 + 답변 영역 */}
+        {/* 응답 시간 */}
+        {elapsedSec !== null && (
+          <div className="elapsed-time">
+            ⏱ 응답 시간: {elapsedSec}초 · {model === "gpt" ? "GPT" : "내부 모델"} 사용
+          </div>
+        )}
+
+        {/* 결과 박스 */}
         {(result || loading) && (
           <div className="result-box">
-
-            {/* 사용자 질문 */}
-            <div className="question-bubble">
-              <span className="question-label">질문</span>
-              <p className="question-text">{q}</p>
+            <div className="result-header">
+              <span className={`result-model-badge ${model}`}>
+                {model === "gpt" ? "GPT 답변" : "내부 모델 답변"}
+              </span>
+              <span className="result-query-label">{q}</span>
             </div>
-
-            {/* 구분선 */}
-            <div className="result-divider" />
-
-            {/* AI 답변 */}
-            <div className="answer-section">
-              <div className="answer-header">
-                <span className={`result-model-badge ${model}`}>
-                  {model === "gpt" ? "GPT 답변" : "내부 모델 답변"}
-                </span>
-                {elapsedSec !== null && (
-                  <span className="elapsed-time">⏱ {elapsedSec}초</span>
-                )}
+            {loading ? (
+              <div className="answer-loading">
+                <div className="spinner-dark" /> 답변 생성 중...
               </div>
-              {loading ? (
-                <div className="answer-loading">
-                  <div className="spinner-dark" />
-                  <span>답변 생성 중...</span>
-                </div>
-              ) : (
-                <pre className="result-text">{result}</pre>
-              )}
-            </div>
-
+            ) : (
+              <pre className="result-text">{result}</pre>
+            )}
           </div>
         )}
 
@@ -160,11 +134,7 @@ export default function AiChatPage() {
         {!result && !loading && (
           <div className="hint-row">
             {["홍대 이번 주 전시", "성수동 팝업 언제야?", "이번 주말 행사 추천"].map((hint) => (
-              <button
-                key={hint}
-                className="hint-btn"
-                onClick={() => setQ(hint)}
-              >
+              <button key={hint} className="hint-btn" onClick={() => setQ(hint)}>
                 {hint}
               </button>
             ))}
